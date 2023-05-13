@@ -4,6 +4,8 @@
 
 @section('content')
 
-    <h1>PD2 - {{ $title }} </h1>
+
+    <p>Šī ir sākuma lapa</p>
+
 
 @endsection
