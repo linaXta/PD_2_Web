@@ -20,5 +20,65 @@ class DirectorController extends Controller
             ]
             );
     }
-    //
+
+    // display new director form
+    public function create()
+    {
+        return view(
+            'director.form',
+            [
+                'title' => "Pievienot režisoru",
+                'director' => new Director(),
+            ]
+        );
+    }
+
+    // save new director
+    public function put(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $director = new Director();
+        $director->name = $validatedData['name'];
+        $director->save();
+
+        return redirect('/directors');
+    }
+
+    // update director
+    public function update(Director $director)
+    {
+        return view(
+            'director.form',
+            [
+                'title' => 'Rediģēt režisoru',
+                'director' => $director,
+            ]
+        );
+        
+    }
+
+    public function patch(Director $director, Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+        ]);
+
+        
+        $director->name = $validatedData['name'];
+        $director->save();
+
+        return redirect('/directors');
+    }
+
+    public function delete(Director $director)
+    {
+        $director->delete();
+
+        return redirect('/directors');
+    }
+
+    
 }
