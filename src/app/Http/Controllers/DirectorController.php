@@ -11,6 +11,7 @@ class DirectorController extends Controller
     {
         $this->middleware('auth');
     }
+    
     //display all directors
     public function list()
     {

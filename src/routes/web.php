@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,18 +19,31 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/directors', [DirectorController::class, 'list']);
 
+
+//Director routes
+
+Route::get('/directors', [DirectorController::class, 'list']);
 // pievienot
 Route::get('/directors/create', [DirectorController::class, 'create']);
 Route::post('/directors/put', [DirectorController::class, 'put']);
-
 // labot
 Route::get('/directors/update/{director}', [DirectorController::class, 'update']);
 Route::post('directors/patch/{director}', [DirectorController::class, 'patch']);
-
 // dzēst
 Route::post('directors/delete/{director}', [DirectorController::class, 'delete']);
+
+
+//Movie routes
+Route::get('/movies', [MovieController::class, 'list']);
+Route::get('/movies/create', [MovieController::class, 'create']);
+Route::post('/movies/put', [MovieController::class, 'put']);
+Route::get('/movies/update/{movie}', [MovieController::class, 'update']);
+Route::post('movies/patch/{movie}', [MovieController::class, 'patch']);
+Route::post('movies/delete/{movie}', [MovieController::class, 'delete']);
+
+
+
 
 // Auth routes // ielagoties
 Route::get('/login', [AuthController::class, 'login'])->name('login');

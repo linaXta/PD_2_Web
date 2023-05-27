@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Director extends Model
+class Movie extends Model
 {
     use HasFactory;
 
-    public function movies()
+    public function director()
     {
-        return $this->hasMany(Movie::class);
+        return $this->belongsTo(Director::class);
     }
 }
