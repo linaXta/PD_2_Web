@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,8 @@ Route::post('directors/patch/{director}', [DirectorController::class, 'patch']);
 
 // dzēst
 Route::post('directors/delete/{director}', [DirectorController::class, 'delete']);
+
+// Auth routes // ielagoties
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/auth', [AuthController::class, 'authenticate']);
+Route::get('/logout', [AuthController::class, 'logout']);
