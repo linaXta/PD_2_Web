@@ -61,8 +61,77 @@ class MovieController extends Controller
         $movie->price = $validatedData['price'];
         $movie->year = $validatedData['year'];
         $movie->display = (bool) ($validatedData['display'] ?? false);
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+            $movie->image = $uploadedFile->storePubliclyAs(
+            '/',
+            $name . '.' . $extension,
+            'uploads'
+            );
+           }
+           
         $movie->save();
 
         return redirect('/movies');
      }
+
+
+     public function update(Movie $movie)
+    {
+        $directors = Director::orderBy('name', 'asc')->get();
+        return view(
+            'movie.form',
+            [
+                'title' => 'Rediģēt filmu',
+                'movie' => $movie,
+                'directors' => $directors,
+            ]
+        );
+    }
+
+    public function patch(Movie $movie, Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:256',
+            'director_id' => 'required',
+            'description' => 'nullable',
+            'price' => 'nullable|numeric',
+            'year' => 'numeric',
+            'image' => 'nullable|image',
+            'display' => 'nullable'
+        ]);
+        $movie->name = $validatedData['name'];
+        $movie->director_id = $validatedData['director_id'];
+        $movie->description = $validatedData['description'];
+        $movie->price = $validatedData['price'];
+        $movie->year = $validatedData['year'];
+        $movie->display = (bool) ($validatedData['display'] ?? false);
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $extension = $uploadedFile->clientExtension();
+            $name = uniqid();
+            $movie->image = $uploadedFile->storePubliclyAs(
+            '/',
+            $name . '.' . $extension,
+            'uploads'
+            );
+           }
+           
+        $movie->save();
+
+        return redirect('/movies');
+    }
+
+    public function delete(Movie $movie)
+    {
+        $movie->delete();
+        return redirect('/movies');
+    }
+
+   
+
+
+
 }

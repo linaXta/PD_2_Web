@@ -13,7 +13,28 @@
     @endif
 
 
-    <form method="post" action="{{ $movie->exists ? '/movies/patch/' . $movie->id : '/movies/put' }}">
+    <form method="post" action="{{ $movie->exists ? '/movies/patch/' . $movie->id : '/movies/put' }}" enctype="multipart/form-data"
+    >
+    <div class="mb-3">
+        <label for="movie-image" class="form-label">Attēls</label>
+        @if ($movie->image)
+        <img
+        src="{{ asset('images/' . $movie->image) }}"
+        class="img-fluid img-thumbnail d-block mb-2"
+        alt="{{ $movie->name }}"
+        >
+        @endif
+        <input
+        type="file" accept="image/png, image/jpeg"
+        id="movie-image"
+        name="image"
+        class="form-control @error('image') is-invalid @enderror"
+        >
+        @error('image')
+        <p class="invalid-feedback">{{ $errors->first('image') }}</p>
+        @enderror
+    </div>
+
         @csrf
 
 
