@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Director;
 use App\Http\Requests\MovieRequest;
+use App\Models\Genre;
 
 class MovieController extends Controller
 {
@@ -38,6 +39,7 @@ class MovieController extends Controller
                 'title' => "Pievienot filmu",
                 'movie' => new Movie(),
                 'directors' => $directors,
+                'Genre' => $genres,
             ]
         );
     }
@@ -82,6 +84,7 @@ class MovieController extends Controller
                 'title' => 'Rediģēt filmu',
                 'movie' => $movie,
                 'directors' => $directors,
+                'genres' => $genres,
             ]
         );
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\GenreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,16 @@ Route::get('/movies/update/{movie}', [MovieController::class, 'update']);
 Route::post('movies/patch/{movie}', [MovieController::class, 'patch']);
 Route::post('movies/delete/{movie}', [MovieController::class, 'delete']);
 
+//Genre routes
+Route::get('/genres', [GenreController::class, 'list']);
+// pievienot
+Route::get('/genres/create', [GenreController::class, 'create']);
+Route::post('/genres/put', [GenreController::class, 'put']);
+// labot
+Route::get('/genres/update/{genre}', [GenreController::class, 'update']);
+Route::post('genres/patch/{genre}', [GenreController::class, 'patch']);
+// dzēst
+Route::post('genres/delete/{genre}', [GenreController::class, 'delete']);
 
 
 

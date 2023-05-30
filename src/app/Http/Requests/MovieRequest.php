@@ -17,6 +17,7 @@ class MovieRequest extends FormRequest
 
             'name' => 'required|min:3|max:256',
             'director_id' => 'required',
+            'genre_id' => 'required',
             'description' => 'nullable',
             'price' => 'nullable|numeric',
             'year' => 'numeric',
@@ -43,6 +44,7 @@ class MovieRequest extends FormRequest
         return [
         'name' => 'nosaukums',
         'director_id' => 'autors',
+        'genre_id' => 'required',
         'description' => 'apraksts',
         'price' => 'cena',
         'year' => 'gads',
