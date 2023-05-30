@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 use App\Models\Director;
+use App\Http\Requests\MovieRequest;
 
 class MovieController extends Controller
 {
@@ -27,56 +28,50 @@ class MovieController extends Controller
         );
     }
 
-     // display new movie form
-     public function create()
-     {
+    // display new movie form
+    public function create()
+    {
         $directors = Director::orderBy('name', 'asc')->get();
-         return view(
-             'movie.form',
-             [
-                 'title' => "Pievienot filmu",
-                 'movie' => new Movie(),
-                 'directors' => $directors,
-             ]
-         );
-     }
- 
-     // save new movies
-     public function put(Request $request)
-     {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:256',
-            'director_id' => 'required',
-            'description' => 'nullable',
-            'price' => 'nullable|numeric',
-            'year' => 'numeric',
-            'image' => 'nullable|image',
-            'display' => 'nullable'
-        ]);
+        return view(
+            'movie.form',
+            [
+                'title' => "Pievienot filmu",
+                'movie' => new Movie(),
+                'directors' => $directors,
+            ]
+        );
+    }
 
-        $movie = new Movie();
-        $movie->name = $validatedData['name'];
-        $movie->director_id = $validatedData['director_id'];
-        $movie->description = $validatedData['description'];
-        $movie->price = $validatedData['price'];
-        $movie->year = $validatedData['year'];
+    private function saveMovieData(Movie $movie, MovieRequest $request)
+    {
+        $validatedData = $request->validated();
+        $movie->fill($validatedData);
         $movie->display = (bool) ($validatedData['display'] ?? false);
         if ($request->hasFile('image')) {
             $uploadedFile = $request->file('image');
             $extension = $uploadedFile->clientExtension();
             $name = uniqid();
             $movie->image = $uploadedFile->storePubliclyAs(
-            '/',
-            $name . '.' . $extension,
-            'uploads'
+                '/',
+                $name . '.' . $extension,
+                'uploads'
             );
-           }
-           
+        }
         $movie->save();
+    }
 
+    public function put(MovieRequest $request) // save new movies
+    {
+        $movie = new Movie();
+        $this->saveMovieData($movie, $request);
         return redirect('/movies');
-     }
+    }
 
+    public function patch(Movie $movie, MovieRequest $request)
+    {
+        $this->saveMovieData($movie, $request);
+        return redirect('/movies/update/' . $movie->id);
+    }
 
      public function update(Movie $movie)
     {
@@ -89,39 +84,6 @@ class MovieController extends Controller
                 'directors' => $directors,
             ]
         );
-    }
-
-    public function patch(Movie $movie, Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|min:3|max:256',
-            'director_id' => 'required',
-            'description' => 'nullable',
-            'price' => 'nullable|numeric',
-            'year' => 'numeric',
-            'image' => 'nullable|image',
-            'display' => 'nullable'
-        ]);
-        $movie->name = $validatedData['name'];
-        $movie->director_id = $validatedData['director_id'];
-        $movie->description = $validatedData['description'];
-        $movie->price = $validatedData['price'];
-        $movie->year = $validatedData['year'];
-        $movie->display = (bool) ($validatedData['display'] ?? false);
-        if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $extension = $uploadedFile->clientExtension();
-            $name = uniqid();
-            $movie->image = $uploadedFile->storePubliclyAs(
-            '/',
-            $name . '.' . $extension,
-            'uploads'
-            );
-           }
-           
-        $movie->save();
-
-        return redirect('/movies');
     }
 
     public function delete(Movie $movie)
