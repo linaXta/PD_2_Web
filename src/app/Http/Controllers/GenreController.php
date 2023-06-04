@@ -49,7 +49,7 @@ class GenreController extends Controller
         $genre->name = $validatedData['name'];
         $genre->save();
 
-        return redirect('/genre');
+        return redirect('/genres');
     }
 
     // update genre

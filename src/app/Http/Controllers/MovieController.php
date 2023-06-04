@@ -33,13 +33,14 @@ class MovieController extends Controller
     public function create()
     {
         $directors = Director::orderBy('name', 'asc')->get();
+        $genres = Genre::orderBy('name', 'asc')->get();
         return view(
             'movie.form',
             [
                 'title' => "Pievienot filmu",
                 'movie' => new Movie(),
                 'directors' => $directors,
-                'Genre' => $genres,
+                'genres' => $genres,
             ]
         );
     }
@@ -78,6 +79,7 @@ class MovieController extends Controller
      public function update(Movie $movie)
     {
         $directors = Director::orderBy('name', 'asc')->get();
+        $genres = Genre::orderBy('name', 'asc')->get();
         return view(
             'movie.form',
             [
@@ -94,9 +96,5 @@ class MovieController extends Controller
         $movie->delete();
         return redirect('/movies');
     }
-
-   
-
-
 
 }

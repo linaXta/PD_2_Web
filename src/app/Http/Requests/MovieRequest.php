@@ -44,7 +44,7 @@ class MovieRequest extends FormRequest
         return [
         'name' => 'nosaukums',
         'director_id' => 'autors',
-        'genre_id' => 'required',
+        'genre_id' => 'žanrs',
         'description' => 'apraksts',
         'price' => 'cena',
         'year' => 'gads',
