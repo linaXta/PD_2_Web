@@ -233,7 +233,7 @@ function renderRelated(movies) {
     // create title
     let title = document.createElement('h2');
     title.classList = 'display-4';
-    title.textContent = "Līdzīgas filmas";
+    title.textContent = "Citas filmas";
 
     // add elements to document
     titleDiv.appendChild(title);
